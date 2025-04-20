@@ -60,6 +60,7 @@ def create_features(returns, config, lags=3):
     if config['trend_features']:
         df['trend'] = np.arange(len(df))
         df_spline = dmatrix("bs(trend, df=4, include_intercept=False) - 1", df, return_type='dataframe')
+        df_spline.columns = [f"spline_{i}" for i in range(df_spline.shape[1])]
         df = pd.concat([df, df_spline], axis=1).drop(columns='trend')
     return df.dropna()
 
