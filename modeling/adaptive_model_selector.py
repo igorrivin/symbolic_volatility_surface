@@ -95,13 +95,14 @@ if __name__ == "__main__":
         model = get_model_template_for(X_train, y_train)
         with model:
             trace = pm.sample(2000, tune=1000, cores=1, chains=2, progressbar=True)
-        posterior_pred = pm.sample_posterior_predictive(trace, model=model)
-        y_pred = posterior_pred["y"].mean(0)
+            posterior_pred = pm.sample_posterior_predictive(trace, model=model)
+        y_pred = posterior_pred.posterior_predictive["y"].mean(dim=("chain", "draw")).values
         r2 = r2_score(y_train, y_pred)
 
         print(f"R^2 score: {r2:.4f}")
         if r2 < 0.1:
-            print("⚠️ Low-performing model.")
+            print("⚠️ Low-performing model.")    
+
 
         X_df = pd.DataFrame(X_scaled, columns=df_spline.columns)  # Use cleaned column names
         symbolic_regression(X_df, y, flagged, ticker, output_csv)
