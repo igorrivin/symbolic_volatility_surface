@@ -1,0 +1,30 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+
+# Jupyter checkpoints
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Output artifacts
+*.zip
+*.csv
+*.md
+surface_plots/
+symbolic_models_report.md
+symbolic_model_report_bundle.zip
+
+# PyDrive credentials (just in case)
+credentials.json
+client_secrets.json
+
+# Misc
+.DS_Store

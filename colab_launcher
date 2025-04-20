@@ -1,0 +1,25 @@
+# Colab Launcher for Symbolic Volatility Surface Pipeline
+
+"""
+Run this notebook in Google Colab to:
+- Analyze asset return diagnostics
+- Fit symbolic models using PyMC and PySR
+- Generate visual surfaces and publish results
+"""
+
+!git clone https://github.com/YOUR_USER/symbolic-volatility-surface.git
+%cd symbolic-volatility-surface
+!pip install -r requirements.txt
+
+# Step 1: Generate diagnostics
+%run diagnostics/return_dependence_diagnostics.py
+
+# Step 2: Adaptive modeling and symbolic regression
+%run modeling/adaptive_model_selector.py
+
+# Step 3: Reporting and 3D surface plots
+%run reporting/symbolic_surface_report.py
+
+# Step 4: Bundle the report and upload to Drive
+%run reporting/bundle_report_archive.py
+%run reporting/upload_to_drive.py

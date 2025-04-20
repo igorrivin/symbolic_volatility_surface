@@ -1,0 +1,18 @@
+# Required Python packages for symbolic volatility surface modeling
+
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+sympy
+statsmodels
+pymc>=5
+arviz
+pysr>=0.13.0
+yfinance
+patsy
+pydrive
+jupyter
+ipykernel
+scikit-learn
