@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+np.seterr(all="ignore")
 import pymc as pm
 from sklearn.metrics import r2_score
 from sklearn.preprocessing import StandardScaler
