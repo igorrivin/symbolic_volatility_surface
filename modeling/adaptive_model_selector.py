@@ -110,7 +110,8 @@ def symbolic_regression(X_df, y, flagged, label, out_path):
     )
     model.fit(X_df, y)
     eq = model.get_best()
-    expr = pysr2sympy(str(eq), feature_names_in=X_df.columns, extra_sympy_mappings={"log": sym_log, "abs": sym_abs})
+    equation_str = eq['equation']
+    expr = pysr2sympy(equation_str, feature_names_in=X_df.columns, extra_sympy_mappings={"log": sym_log, "abs": sym_abs})
     latex_expr = latex(expr)
 
     result = {
