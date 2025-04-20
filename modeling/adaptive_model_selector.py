@@ -12,7 +12,8 @@ from pysr.export_sympy import pysr2sympy
 from sympy import latex
 import yfinance as yf
 import os
-
+api_key = "5N9SBTYG0LHC7UWZ"
+from alpha_vantage.timeseries import TimeSeries
 # Load diagnostics from CSV (generated per ticker)
 def load_diagnostics(ticker):
     df = pd.read_csv(f"diagnostics_{ticker}.csv")
@@ -131,8 +132,11 @@ if __name__ == "__main__":
     for ticker in tickers:
         print(f"\n🔍 Processing {ticker}...")
         config = get_model_template_for(ticker)
-        data = yf.download(ticker, period='2y', progress=False)['Adj Close']
-        returns = np.log(data).diff().dropna()
+        ts = TimeSeries(key=api_key, output_format='pandas')
+        data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
+        data = data.sort_index()  # Ensure oldest -> newest
+
+        returns = np.log(data['4. close']).diff().dropna()
         df_feat = create_features(returns, config)
 
         trace, X_scaled, y, feature_names = build_and_fit_model(df_feat, config)

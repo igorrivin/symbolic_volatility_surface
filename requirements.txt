@@ -16,3 +16,5 @@ pydrive
 jupyter
 ipykernel
 scikit-learn
+alpha-vantage
+hurst
