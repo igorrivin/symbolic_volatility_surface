@@ -78,8 +78,8 @@ if __name__ == "__main__":
     for metric, ax in zip(['DF', 'Hurst', 'AC(1)', 'PAC(1)'], axs):
         sns.lineplot(data=full_df, x='Lag', y=metric, hue='Ticker', marker='o', ax=ax)
         ax.set_title(f'{metric} vs. Lag')
-        ax.axhline(0.5 if metric == 'Hurst' else None, linestyle='--', color='gray')
-
+        if metric == 'Hurst':
+            ax.axhline(0.5, linestyle='--', color='gray')
     plt.tight_layout()
     plt.show()
 
