@@ -48,19 +48,19 @@ def analyze_ticker(ticker='AAPL', max_lag=10):
     for lag in range(1, max_lag + 1):
         returns = log_prices.diff(lag).dropna()
         df_fit = fit_student_t(returns)
-    hurst = estimate_hurst(log_prices.dropna().values)
-    ac = acf(returns, nlags=1, fft=False)[1]
-    pac = pacf(returns, nlags=1, method='yw')[1]
-    lb_pval = ljung_box_test(returns)
+        hurst = estimate_hurst(log_prices.dropna().values)
+        ac = acf(returns, nlags=1, fft=False)[1]
+        pac = pacf(returns, nlags=1, method='yw')[1]
+        lb_pval = ljung_box_test(returns)
 
-    results.append({
-    'Lag': lag,
-    'DF': df_fit,
-    'Hurst': hurst,
-    'AC(1)': ac,
-    'PAC(1)': pac,
-    'LB p-val': lb_pval
-    })
+        results.append({
+        'Lag': lag,
+        'DF': df_fit,
+        'Hurst': hurst,
+        'AC(1)': ac,
+        'PAC(1)': pac,
+        'LB p-val': lb_pval
+            })
 
     df_results = pd.DataFrame(results)
     df_results['Ticker'] = ticker
