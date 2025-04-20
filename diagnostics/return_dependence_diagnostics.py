@@ -64,8 +64,8 @@ def analyze_ticker(ticker='AAPL', max_lag=10):
 
     df_results = pd.DataFrame(results)
     df_results['Ticker'] = ticker
-    df_results.to_csv(f'diagnostics_{ticker}.csv', index=False)
-    return df_results
+    df_results.to_csv(f'data/diagnostics_{ticker}.csv', index=False)
+    return df_results   
 
 # Run diagnostics on multiple tickers
 if __name__ == "__main__":
