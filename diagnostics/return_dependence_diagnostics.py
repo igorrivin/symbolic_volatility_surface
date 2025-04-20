@@ -7,7 +7,8 @@ from scipy.stats import t, linregress
 from statsmodels.tsa.stattools import acf, pacf, adfuller, acovf, q_stat
 from hurst import compute_Hc
 import seaborn as sns
-import yfinance as yf
+api_key = "5N9SBTYG0LHC7UWZ"
+from alpha_vantage.timeseries import TimeSeries
 
 # Estimate degrees of freedom of a Student-t fit
 def fit_student_t(df_returns):
@@ -36,8 +37,12 @@ def ljung_box_test(returns, lags=10):
 
 # Full diagnostics pipeline for a ticker
 def analyze_ticker(ticker='AAPL', max_lag=10):
-    data = yf.download(ticker, period='2y', progress=False)['Adj Close']
-    log_prices = np.log(data)
+
+    ts = TimeSeries(key=api_key, output_format='pandas')
+    data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
+    data = data.sort_index()  # Ensure oldest -> newest
+
+    log_prices = np.log(data['4. close'])
 
     results = []
     for lag in range(1, max_lag + 1):
@@ -49,12 +54,12 @@ def analyze_ticker(ticker='AAPL', max_lag=10):
         lb_pval = ljung_box_test(returns)
 
         results.append({
-            'Lag': lag,
-            'DF': df_fit,
-            'Hurst': hurst,
-            'AC(1)': ac,
-            'PAC(1)': pac,
-            'LB p-val': lb_pval
+        'Lag': lag,
+        'DF': df_fit,
+        'Hurst': hurst,
+        'AC(1)': ac,
+        'PAC(1)': pac,
+        'LB p-val': lb_pval
         })
 
     df_results = pd.DataFrame(results)
