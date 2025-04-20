@@ -26,7 +26,7 @@ model_vol = PySRRegressor(
     extra_sympy_mappings={"log": sym_log, "abs": sym_abs},
     model_selection="best",
     loss="loss(x, y) = (x - y)^2",
-    verbosity=1
+verbosity=1
 )
 
 model_vol.fit(X_train_v, y_train_v)
@@ -35,8 +35,9 @@ print("R^2 (Volatility):", r2_score(y_test_v, y_pred_vol))
 
 # Export best volatility formula
 best_eq_vol = model_vol.get_best()
+equation_string = best_eq_vol['equation']
 print("Best volatility equation:", best_eq_vol)
-expr_vol = pysr2sympy(str(best_eq_vol), feature_names_in=X.columns, extra_sympy_mappings={"log": sym_log, "abs": sym_abs})
+expr_vol = pysr2sympy(equation_string, feature_names_in=X.columns, extra_sympy_mappings={"log": sym_log, "abs": sym_abs})
 print("LaTeX (Volatility):", latex(expr_vol))
 
 # Track B: Symbolic model of option prices
@@ -60,8 +61,9 @@ print("R^2 (Price):", r2_score(y_test_p, y_pred_price))
 
 # Export best price formula
 best_eq_price = model_price.get_best()
+equation_string = best_eq_price['equation']
 print("Best price equation:", best_eq_price)
-expr_price = pysr2sympy(str(best_eq_price), feature_names_in=X.columns, extra_sympy_mappings={"log": sym_log, "abs": sym_abs})
+expr_price = pysr2sympy(equation_string, feature_names_in=X.columns, extra_sympy_mappings={"log": sym_log, "abs": sym_abs})
 print("LaTeX (Price):", latex(expr_price))
 
 # Plot predictions
